@@ -1,0 +1,44 @@
+/* Processing summary strip */
+.pipeline {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 6px;
+  margin-bottom: 12px;
+}
+.pipeline-empty {
+  color: var(--bs-secondary-color);
+  gap: 8px;
+}
+.pipeline-step {
+  border: 1px solid var(--bs-border-color);
+  border-radius: 8px;
+  padding: 6px 12px;
+  background: var(--bs-body-bg);
+  min-width: 90px;
+  cursor: default;
+}
+.pipeline-step[title]:not([title=""]) {
+  cursor: help;
+}
+.pipeline-label {
+  font-size: 0.7rem;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  color: var(--bs-secondary-color);
+}
+.pipeline-value {
+  font-size: 1.05rem;
+  font-weight: 600;
+  font-variant-numeric: tabular-nums;
+  white-space: nowrap;
+}
+.pipeline-caption {
+  font-size: 0.75rem;
+  color: var(--bs-secondary-color);
+  white-space: nowrap;
+}
+.pipeline-arrow {
+  color: var(--bs-secondary-color);
+  font-size: 1.1rem;
+}

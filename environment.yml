@@ -1,0 +1,15 @@
+name: shiny_mva
+channels:
+  - conda-forge
+dependencies:
+  - r-base=4.4
+  - r-shiny
+  - r-bslib
+  - r-vegan
+  - r-uwot
+  - r-rspectra
+  - r-ggplot2
+  - r-plotly
+  - r-dt
+  - r-data.table
+  - r-testthat
