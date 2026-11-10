@@ -7,6 +7,8 @@
 #   dist_label: how the distance is named in the summary
 #   engine    : pcoa | pca | ca | nmds | umap  (fct_ordination.R)
 #   prefix    : axis name prefix
+#   drivers_transform (optional): transformation used for the Drivers tab when
+#               the distance does its own transformation (e.g. Aitchison)
 
 METHODS <- list(
   pcoa_bray = list(
@@ -18,6 +20,18 @@ METHODS <- list(
     label = "PCoA – Jaccard", group = "PCoA",
     transform = "pa", distance = "jaccard", dist_label = "Jaccard",
     engine = "pcoa", prefix = "PCoA"
+  ),
+  # Aitchison distances are computed by vegdist() directly on raw counts;
+  # `drivers_transform` is the transformation used to rank the driving taxa.
+  pcoa_aitchison = list(
+    label = "PCoA – Aitchison", group = "PCoA",
+    transform = "none", distance = "aitchison", dist_label = "Aitchison",
+    engine = "pcoa", prefix = "PCoA", drivers_transform = "clr"
+  ),
+  pcoa_robust_aitchison = list(
+    label = "PCoA – robust Aitchison", group = "PCoA",
+    transform = "none", distance = "robust.aitchison", dist_label = "Robust Aitchison",
+    engine = "pcoa", prefix = "PCoA", drivers_transform = "rclr"
   ),
   pca_clr = list(
     label = "PCA – CLR", group = "PCA",

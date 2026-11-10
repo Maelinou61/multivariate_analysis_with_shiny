@@ -7,7 +7,7 @@ mod_analysis_ui <- function(id) {
     "Analysis", icon = icon("diagram-project"),
     selectInput(ns("method"), "Method", choices = method_choices()),
     conditionalPanel(
-      "input.method == 'pca_clr' || input.method == 'umap_clr'", ns = ns,
+      "['pca_clr', 'umap_clr', 'pcoa_aitchison'].includes(input.method)", ns = ns,
       numericInput(ns("pseudocount"), "CLR pseudocount", value = 1, min = 1e-6, step = 0.5)
     ),
     conditionalPanel(

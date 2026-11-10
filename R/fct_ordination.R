@@ -99,7 +99,7 @@ run_analysis <- function(counts, method_id, params = list()) {
 
   need_dist <- m$engine %in% ENGINES_NEED_DIST ||
     (m$engine == "umap" && m$distance != "euclidean")
-  d <- if (need_dist) compute_distance(x, m$distance) else NULL
+  d <- if (need_dist) compute_distance(x, m$distance, params$pseudocount %||% 1) else NULL
 
   res <- switch(m$engine,
     pcoa = ord_pcoa(d),
@@ -117,10 +117,12 @@ run_analysis <- function(counts, method_id, params = list()) {
 
   res$method_id <- method_id
   res$method <- m
-  res$x <- x
+  # Matrix used for the Drivers tab (and lazy distances)
+  shown_transform <- m$drivers_transform %||% m$transform
+  res$x <- if (is.null(m$drivers_transform)) x else transform_counts(counts, m$drivers_transform, params$pseudocount %||% 1)
   res$d <- d
   res$log <- list(
-    log_entry("Transform", TRANSFORM_LABELS[[m$transform]], "transformation"),
+    log_entry("Transform", TRANSFORM_LABELS[[shown_transform]], "transformation"),
     log_entry("Distance", m$dist_label, "distance"),
     log_entry(
       "Ordination", m$prefix,

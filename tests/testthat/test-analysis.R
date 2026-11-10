@@ -62,3 +62,20 @@ test_that("highlight mode keeps chosen values and folds the rest", {
   p2 <- make_ordination_plot(res, toy$meta, "Genus", colour = "depth")
   expect_s3_class(p2, "ggplot")
 })
+
+test_that("PCoA on vegan's Aitchison distance equals PCA on CLR", {
+  toy <- make_toy()
+  pcoa <- run_analysis(toy$counts, "pcoa_aitchison", list(pseudocount = 1))
+  pca <- run_analysis(toy$counts, "pca_clr", list(pseudocount = 1))
+  expect_equal(abs(unname(pcoa$scores[, 1:3])), abs(unname(pca$scores[, 1:3])), tolerance = 1e-6)
+  expect_equal(pcoa$var_expl[1:3], pca$var_expl[1:3], tolerance = 1e-6)
+  expect_equal(c(pcoa$d), c(vegan::vegdist(toy$counts, "aitchison", pseudocount = 1)))
+})
+
+test_that("robust Aitchison PCoA uses vegan's distance, drivers on rCLR", {
+  toy <- make_toy()
+  res <- run_analysis(toy$counts, "pcoa_robust_aitchison")
+  expect_equal(c(res$d), c(vegan::vegdist(toy$counts, "robust.aitchison")))
+  expect_equal(res$log[[1]]$value, "Robust CLR")
+  run_permanova(analysis_distance(res), toy$meta, "group", 19) |> expect_type("list")
+})
